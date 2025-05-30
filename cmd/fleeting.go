@@ -1,27 +1,42 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2025 s19835 <s19835@sci.pdn.ac.lk>
 */
 package cmd
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
 
 // fleetingCmd represents the fleeting command
 var fleetingCmd = &cobra.Command{
-	Use:   "fleeting",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "fleeting [note]",
+	Short: "Create a fleeting note",
+	Long: `Purpose: Quick brain dumps, random thoughts, ideas, overheard quotes, sudden inspiration. Notes which are temporary and meant to be processed later.
+	Title: YYYYMMDDHHMM.md, Location: notes/fleeting/`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("fleeting called")
+		note := strings.Join(args, " ")
+		now := time.Now()
+		filename := now.Format("200601021504") + ".md"
+
+		baseDir := "notes/fleeting"
+		os.MkdirAll(baseDir, os.ModePerm)
+
+		fullpath := filepath.Join(baseDir, filename)
+
+		content := fmt.Sprintf(`# %s - %s`, now.Format("2006-01-02 15:04"), note)
+
+		err := os.WriteFile(fullpath, []byte(content), 0644)
+		if err != nil {
+			fmt.Println("Fail to create Note:", err)
+			return
+		}
+		fmt.Println("# Creates ", fullpath)
 	},
 }
 
