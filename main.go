@@ -1,6 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2025 s19835 <s19835@sci.pdn.ac.lk>
 */
 package main
 
